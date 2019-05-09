@@ -10,6 +10,7 @@ import java.util.Random;
 
 /**
  * Draws a world consisting of hexagonal regions.
+ * @author: Nguyen Cuong
  */
 public class HexWorld {
 
