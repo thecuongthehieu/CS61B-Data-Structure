@@ -7,12 +7,13 @@ import java.util.Set;
  *  A hash table-backed Map implementation. Provides amortized constant time
  *  access to elements via get(), remove(), and put() in the best case.
  *
- *  @author Your name here
+ *  @author Nguyen Cuong
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
 
     private static final int DEFAULT_SIZE = 16;
     private static final double MAX_LF = 0.75;
+    private static final int RESIZE_FACTOR = 2;
 
     private ArrayMap<K, V>[] buckets;
     private int size;
@@ -53,19 +54,45 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        int index = hash(key);
+        return buckets[index].get(key);
+    }
+
+    /* Resize when Load Factor is greater than MAX_LF */
+    private void resize() {
+        int numBuckets = buckets.length;
+        ArrayMap<K, V>[] newBuckets = new ArrayMap[numBuckets * RESIZE_FACTOR];
+
+        for (int i = 0; i < newBuckets.length; ++i) {
+            newBuckets[i] = new ArrayMap<>();
+        }
+
+        for (int i = 0; i < numBuckets; ++i) {
+            for (K key : buckets[i].keySet()) {
+                int newID = Math.floorMod(key.hashCode(), newBuckets.length);
+                newBuckets[newID].put(key, buckets[i].get(key));
+            }
+        }
+        buckets = newBuckets;
     }
 
     /* Associates the specified value with the specified key in this map. */
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (loadFactor() > MAX_LF) {
+            resize();
+        }
+        int index = hash(key);
+        if (!buckets[index].containsKey(key)) {
+            ++size;
+        }
+        buckets[index].put(key, value);
     }
 
     /* Returns the number of key-value mappings in this map. */
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
