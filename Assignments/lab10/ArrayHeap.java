@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
  * store Comparable objects. Instead, it can store any type of object
  * (represented by type T), along with a priority value. Why do it this way? It
  * will be useful later on in the class...
+ * @author Nguyen Cuong
  */
 public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private Node[] contents;
@@ -28,7 +29,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private static int leftIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return 2 * i;
     }
 
     /**
@@ -36,7 +37,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private static int rightIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return 2 * i + 1;
     }
 
     /**
@@ -44,7 +45,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private static int parentIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return i / 2;
     }
 
     /**
@@ -108,7 +109,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         validateSinkSwimArg(index);
 
         /** TODO: Your code here. */
-        return;
+        if (index == 1) return;
+        int parentID = parentIndex(index);
+        if (min(index, parentID) == index) {
+            swap(index, parentID);
+            swim(parentID);
+        }
     }
 
     /**
@@ -119,7 +125,14 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         validateSinkSwimArg(index);
 
         /** TODO: Your code here. */
-        return;
+
+        int leftID = leftIndex(index);
+        int rightID = rightIndex(index);
+        int minChildID = min(leftID, rightID);
+        if (min(index, minChildID) == minChildID) {
+            swap(index, minChildID);
+            sink(minChildID);
+        }
     }
 
     /**
@@ -134,6 +147,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
 
         /* TODO: Your code here! */
+        int insertID = size + 1;
+        contents[insertID] = new Node(item, priority);
+        ++size;
+        swim(insertID);
     }
 
     /**
@@ -143,7 +160,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     @Override
     public T peek() {
         /* TODO: Your code here! */
-        return null;
+        Node firstNode = getNode(1);
+        return firstNode.item();
     }
 
     /**
@@ -158,7 +176,13 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     @Override
     public T removeMin() {
         /* TODO: Your code here! */
-        return null;
+        T firstItem = peek();
+        swap(1, size);
+        contents[size] = null;
+        --size;
+        sink(1);
+
+        return firstItem;
     }
 
     /**
