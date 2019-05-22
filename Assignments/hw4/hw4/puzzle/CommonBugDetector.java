@@ -31,14 +31,36 @@ public class CommonBugDetector {
 
         @Override
         public Iterable<WorldState> neighbors() {
-            switch (name) {
-                case('s'): return createWorldStateList(List.of('a', 'x'));
-                case('a'): return createWorldStateList(List.of('b'));
-                case('b'): return createWorldStateList(List.of('c'));
-                case('c'): return createWorldStateList(List.of('d'));
-                case('d'): return createWorldStateList(List.of('e'));
-                case('e'): return createWorldStateList(List.of('g'));
-                case('x'): return createWorldStateList(List.of('c'));
+            List<Character> lc;
+                    switch (name) {
+                case('s'):
+                        lc = new ArrayList<>();
+                        lc.add('a'); lc.add('x');
+                        return createWorldStateList(lc);
+                case('a'):
+                        lc = new ArrayList<>();
+                        lc.add('b');
+                        return createWorldStateList(lc);
+                case('b'):
+                        lc = new ArrayList<>();
+                        lc.add('c');
+                        return createWorldStateList(lc);
+                case('c'):
+                        lc = new ArrayList<>();
+                        lc.add('d');
+                        return createWorldStateList(lc);
+                case('d'):
+                        lc = new ArrayList<>();
+                        lc.add('e');
+                        return createWorldStateList(lc);
+                case('e'):
+                        lc = new ArrayList<>();
+                        lc.add('g');
+                        return createWorldStateList(lc);
+                case('x'):
+                        lc = new ArrayList<>();
+                        lc.add('c');
+                        return createWorldStateList(lc);
                 default: return null;
             }
         }
@@ -81,6 +103,7 @@ public class CommonBugDetector {
         Solver s3 = new Solver(aep);
         System.out.println("TODO: Print out the number of total things ever"
                            + " enqueued in your MinPQ and compare to the comments.");
+        System.out.println("Answer: " + s3.getTotalEnqueue());
         // if you print out the total number of items enqueued by s3
         // it should be approximately 25, not approximately 50.
     }
