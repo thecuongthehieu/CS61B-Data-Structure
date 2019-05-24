@@ -1,5 +1,9 @@
 import edu.princeton.cs.algs4.Queue;
 
+/**
+ * @author Nguyen Cuong
+ */
+
 public class MergeSort {
     /**
      * Removes and returns the smallest item that is in q1 or q2.
@@ -35,7 +39,13 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         // Your code here!
-        return null;
+        Queue<Queue<Item>> returnedQueue = new Queue<>();
+        for (Item item : items) {
+            Queue<Item> q = new Queue<>();
+            q.enqueue(item);
+            returnedQueue.enqueue(q);
+        }
+        return returnedQueue;
     }
 
     /**
@@ -54,13 +64,61 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> sortedQueue = new Queue<>();
+
+        while (!q1.isEmpty() || !q2.isEmpty()) {
+            Item minItem = getMin(q1, q2);
+            sortedQueue.enqueue(minItem);
+        }
+
+        return sortedQueue;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        if (items.size() <= 1) {
+            return items;
+        }
+
+        if (items.size() == 2) {
+            Queue<Queue<Item>> qq = makeSingleItemQueues(items);
+            return mergeSortedQueues(qq.dequeue(), qq.dequeue());
+        }
+
+        int midle = items.size() / 2;
+        Queue<Item> leftQueue = new Queue<>();
+        Queue<Item> rightQueue = new Queue<>();
+
+        int count = 0;
+        for (Item item : items) {
+            if (count <= midle) {
+                leftQueue.enqueue(item);
+            } else {
+                rightQueue.enqueue(item);
+            }
+            ++count;
+        }
+
+        Queue<Item> sortedLeftQueue = mergeSort(leftQueue);
+        Queue<Item> sortedRightQueue = mergeSort(rightQueue);
+
+        Queue<Item> sortedQueue = mergeSortedQueues(sortedLeftQueue, sortedRightQueue);
+
+        return sortedQueue;
+    }
+
+    public static void main(String[] args) {
+        Queue<String> family = new Queue<String>();
+        family.enqueue("Hieu");
+        family.enqueue("Cuong");
+        family.enqueue("Thong");
+        family.enqueue("Chau");
+
+        Queue<String> sortedFamily = mergeSort(family);
+        for (String mem : sortedFamily) {
+            System.out.println(mem);
+        }
     }
 }
