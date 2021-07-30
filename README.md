@@ -6,5 +6,5 @@
 
 Reference:
 - Generic Array: 
-    https://www.freecodecamp.org/news/understanding-java-generic-types-covariance-and-contravariance-88f4c19763d2/
-    https://www.oreilly.com/library/view/learning-java-4th/9781449372477/ch08s10.html
+-- https://www.freecodecamp.org/news/understanding-java-generic-types-covariance-and-contravariance-88f4c19763d2/
+-- https://www.oreilly.com/library/view/learning-java-4th/9781449372477/ch08s10.html
